@@ -48,6 +48,10 @@ export const personSchema: WithContext<Person> = {
 };
 
 export function getArticleSchema(post: CollectionEntry<"blog">) {
+  const imageObject = post.data.cover
+  ? `${import.meta.env.SITE}${post.data.cover.src}`
+  : undefined;
+
   const articleStructuredData: WithContext<Article> = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -55,12 +59,7 @@ export function getArticleSchema(post: CollectionEntry<"blog">) {
     url: `${import.meta.env.SITE}/blog/${post.slug}/`,
     image: {
       "@type": "ImageObject",
-      url: post.data.cover
-        ? {
-            "@type": "ImageObject",
-            url: `${import.meta.env.SITE}${post.data.cover.src}`, // Si post.data.cover y post.data.cover.src están definidos
-          }
-        : null,
+      url: imageObject,
     },
     description: post.data.excerpt,
     datePublished: post.data.date.toString(),
