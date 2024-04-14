@@ -48,10 +48,9 @@ export const personSchema: WithContext<Person> = {
 };
 
 export function getArticleSchema(post: CollectionEntry<"blog">) {
-
   const imageObject = post.data.cover
-  ? `${import.meta.env.SITE}${post.data.cover.src}`
-  : undefined;
+    ? `${import.meta.env.SITE}${post.data.cover.src}`
+    : undefined;
 
   const articleStructuredData: WithContext<Article> = {
     "@context": "https://schema.org",
