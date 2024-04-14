@@ -6,7 +6,7 @@ import {
   type WithContext,
 } from "schema-dts";
 
-import avatar from "/public/avatar.png";
+import avatar from "/src/assets/avatar.png";
 
 import type { CollectionEntry } from "astro:content";
 
@@ -48,6 +48,7 @@ export const personSchema: WithContext<Person> = {
 };
 
 export function getArticleSchema(post: CollectionEntry<"blog">) {
+
   const imageObject = post.data.cover
   ? `${import.meta.env.SITE}${post.data.cover.src}`
   : undefined;
