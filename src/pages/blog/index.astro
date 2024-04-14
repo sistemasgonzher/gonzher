@@ -1,8 +1,13 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+ 
+const allPosts = await getCollection('blog');
+ 
 ---
  
 <Layout title="Welcome to Astro.">
-  <main class="text-red-500">HELLO WORLD</main>
+  <main class="flex flex-col">
+    {allPosts.map((post) => <a href={'/blog/' +post.slug}>{post.data.title}</a>)}
+  </main>
 </Layout>

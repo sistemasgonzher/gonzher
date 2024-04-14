@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { blogWebsite, getArticleSchema } from '../../../structuredData';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -17,11 +18,41 @@ export async function getStaticPaths() {
 }
 const { post } = Astro.props;
 const { Content } = await post.render();
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+ 
+const articleStructuredData = getArticleSchema(post);
+ 
+const breadcrumbsStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Blog',
+      item: `${import.meta.env.SITE}/blog/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: post.data.title,
+      item: `${import.meta.env.SITE}/blog/${post.slug}/`,
+    },
+  ],
+};
+ 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [articleStructuredData, breadcrumbsStructuredData, blogWebsite],
+};
 ---
 
 <Layout title='test-post'>
   <div>
-    <article>
+    <article class="prose">
       {
         post.data.cover ?
         <Image
