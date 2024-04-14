@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { blogWebsite, getArticleSchema } from '../../../structuredData';
+import Container from '../../components/Container.astro';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -50,8 +51,8 @@ const jsonLd = {
 };
 ---
 
-<Layout title='test-post'>
-  <div class="items-center 2xl:max-w-7xl max-w-6xl md:px-12 mx-auto lg:px-8 px-4 justify-center">
+<Layout title={post.data.title}>
+  <Container>
       {
         post.data.cover ?
         <Image
@@ -69,5 +70,5 @@ const jsonLd = {
         <Content />
       </div>
     </article>
-  </div>
+  </Container>
 </Layout>

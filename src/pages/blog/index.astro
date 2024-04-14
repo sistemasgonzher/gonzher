@@ -1,9 +1,18 @@
 ---
 import BlogLIst from '../../components/BlogLIst.astro';
+import Container from '../../components/Container.astro';
 import siteMetadata from '../../data/siteMetadata';
 import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title='Welcome to Astro.'>
+  <Container>
+    <div class='border-b pb-5 text-balance'>
+      <h1 class='text-black text-4xl lg:text-8xl uppercase font-bold'>
+        All Posts
+      </h1>
+      <p class='text-slate-600 mt-4 text-lg'>{siteMetadata.description}</p>
+    </div>
+  </Container>
   <BlogLIst />
 </Layout>
