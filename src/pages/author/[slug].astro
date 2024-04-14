@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { blogWebsite, getArticleSchema } from '../../../structuredData';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+const { post, author } = Astro.props;
+const { Content } = await post.render();
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  author: CollectionEntry<'author'>;
+}
+ 
+const articleStructuredData = getArticleSchema(post);
+ 
+const breadcrumbsStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Blog',
+      item: `${import.meta.env.SITE}/blog/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: post.data.title,
+      item: `${import.meta.env.SITE}/blog/${post.slug}/`,
+    },
+  ],
+};
+ 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [articleStructuredData, breadcrumbsStructuredData, blogWebsite],
+};
+
+console.log(author);
+---
+
+<Layout title='test-post'>
+  <div class="items-center 2xl:max-w-7xl max-w-6xl md:px-12 mx-auto lg:px-8 px-4 justify-center">
+      {
+        post.data.cover ?
+        <Image
+          src={post.data.cover}
+          alt={post.data.title}
+          class='object-cover object-center !m-0 w-full max-h-72 block'
+          width={600}
+          height={600}
+        /> : null
+      }
+    <article class="prose mx-auto">
+      <h1 class='md:!text-5xl md:!leading-[1.2]'>{post.data.title}</h1>
+      <p class='lead'>{post.data.excerpt}</p>
+      <div>
+        <Content />
+      </div>
+    </article>
+  </div>
+</Layout>

@@ -1,9 +1,9 @@
 // src/content/config.ts
 
-import { defineCollection, z } from "astro:content";
+import { defineCollection, z } from 'astro:content';
 
 const postsCollection = defineCollection({
-  type: "content",
+  type: 'content',
   schema: ({ image }) =>
     // using zod to define type-safe frontmatter of our mdx files
     // astro will generate types definitions for our project so we can use them in templates
@@ -17,7 +17,17 @@ const postsCollection = defineCollection({
     }),
 });
 
+const authorCollection = defineCollection({
+  type: 'content',
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      avatar: image().optional(),
+    }),
+});
+
 // This key should match your collection directory name in "src/content"
 export const collections = {
   blog: postsCollection,
+  author: authorCollection,
 };
