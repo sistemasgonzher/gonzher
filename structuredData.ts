@@ -78,3 +78,28 @@ export function getArticleSchema(post: CollectionEntry<"blog">) {
   };
   return articleStructuredData;
 }
+
+export function getPageSchema(page: CollectionEntry<"page">){
+  const imageObject = page.data.cover
+    ? `${import.meta.env.SITE}${page.data.cover.src}`
+    : undefined;
+
+  const pageStructuredData: WithContext<Article> = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: page.data.title,
+    url: `${import.meta.env.SITE}/${page.slug}/`,
+    image: {
+      "@type": "ImageObject",
+      url: imageObject,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Dzmitry Kozhukh",
+      url: import.meta.env.SITE,
+      image: import.meta.env.SITE + avatar.src,
+    }
+  };
+
+  return pageStructuredData;
+}

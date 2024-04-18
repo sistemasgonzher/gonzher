@@ -14,6 +14,7 @@ const postsCollection = defineCollection({
       cover: image().optional(),
       date: z.coerce.date(),
       excerpt: z.string(),
+      author: z.array(z.string()).optional(),
     }),
 });
 
@@ -26,8 +27,18 @@ const authorCollection = defineCollection({
     }),
 });
 
+const pageCollection = defineCollection({
+  type: 'content',
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      excerpt: z.string(),
+      cover: image().optional(),
+    }),
+});
 // This key should match your collection directory name in "src/content"
 export const collections = {
   blog: postsCollection,
   author: authorCollection,
+  page: pageCollection,
 };
