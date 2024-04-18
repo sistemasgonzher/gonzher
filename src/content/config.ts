@@ -32,7 +32,7 @@ const pageCollection = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      excerpt: z.string(),
+      excerpt: z.string().optional(),
       cover: image().optional(),
     }),
 });
