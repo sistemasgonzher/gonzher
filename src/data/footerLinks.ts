@@ -13,6 +13,13 @@ const footerLinks = [
       { title: "Terminos de servicio", href: "/terms-of-service" },
     ],
   },
+  {
+    title: "Apps",
+    links: [
+      {href : '/services', title: 'Services'},
+      {href : '/contact', title: 'Contact'},
+    ],
+  },
 ];
 
 export default footerLinks;
